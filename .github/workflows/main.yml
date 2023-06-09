@@ -29,12 +29,12 @@ jobs:
     - name: Build, tag, and push image to Amazon ECR
       env:
         ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
-        ECR_REPOSITORY: github-sample
+        ECR_REPOSITORY: sample-github
         IMAGE_TAG: nodejs_demo_image
       run: |
-        aws ecr-public get-login-password --region us-east-1 | docker login --username AWS --password-stdin public.ecr.aws/b6r4x8z7
-        docker build -t github-sample .
-        docker tag github-sample:latest public.ecr.aws/b6r4x8z7/github-sample:latest
-        docker push public.ecr.aws/b6r4x8z7/github-sample:latest
+        aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 556827798107.dkr.ecr.us-east-1.amazonaws.com
+        docker build -t sample-github .
+        docker tag sample-github:latest 556827798107.dkr.ecr.us-east-1.amazonaws.com/sample-github:latest
+        docker push 556827798107.dkr.ecr.us-east-1.amazonaws.com/sample-github:latest
         #docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
         #docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
