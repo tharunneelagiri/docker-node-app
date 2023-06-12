@@ -34,7 +34,7 @@ jobs:
       run: |
         aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 556827798107.dkr.ecr.us-east-1.amazonaws.com
         docker build -t sample-github .
-        docker tag sample-github:latest 556827798107.dkr.ecr.us-east-1.amazonaws.com/sample-github:${{ github.sha }}
-        docker push 556827798107.dkr.ecr.us-east-1.amazonaws.com/sample-github:${{ github.sha }}
+        docker tag sample-github:latest 556827798107.dkr.ecr.us-east-1.amazonaws.com/sample-github:tharun${{ github.sha }}
+        docker push 556827798107.dkr.ecr.us-east-1.amazonaws.com/sample-github:tharun${{ github.sha }}
         #docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
         #docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG --all-tags
