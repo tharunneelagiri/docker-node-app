@@ -37,6 +37,6 @@ jobs:
         aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 556827798107.dkr.ecr.us-east-1.amazonaws.com
         docker build -t sample-github .
         docker tag sample-github:latest 556827798107.dkr.ecr.us-east-1.amazonaws.com/sample-github:tharun
-        docker push 556827798107.dkr.ecr.us-east-1.amazonaws.com/sample-github:tharun --all-tags
+        docker push 556827798107.dkr.ecr.us-east-1.amazonaws.com/sample-github: --all-tags
         #docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
         #docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG --all-tags
