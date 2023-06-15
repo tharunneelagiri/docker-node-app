@@ -30,4 +30,4 @@ jobs:
         with:
           context: .
           push: true
-          tags: your-dockerhub-username/your-docker-image-name:latest
+          tags: tharun123/tharun:latest
