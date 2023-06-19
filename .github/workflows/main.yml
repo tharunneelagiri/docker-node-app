@@ -30,4 +30,4 @@ jobs:
         with:
           context: .
           push: true
-          tags: tharun123/tharun:latest1
+          tags: tharun123/kumar:demo
