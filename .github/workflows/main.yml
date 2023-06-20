@@ -27,7 +27,7 @@ jobs:
         export NEW_VERSION=$(python -c "version = '${VERSION}'.split('.'); version[2] = str(int(version[2])+1); print('.'.join(version))")
         echo "New version: $NEW_VERSION"
         
-        docker build -t your-docker-repo:latest .
+        docker build -t Kumar:latest .
         docker tag your-docker-repo:latest your-docker-repo:${NEW_VERSION}
         docker push your-docker-repo:${NEW_VERSION}
-        docker push Neelagiri:latest
+        docker push kumar:latest
