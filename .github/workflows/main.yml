@@ -18,8 +18,8 @@ jobs:
       
     - name: Build and push Docker image
       env:
-       username: ${{ secrets.DOCKERHUB_USERNAME }}
-       password: ${{ secrets.DOCKERHUB_TOKEN }}
+        DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+        DOCKER_PASSWORD: ${{ secrets.DOCKER_TOKEN }}
       run: |
         # Set version based on your logic
         # Example: Increment PATCH version
@@ -27,9 +27,11 @@ jobs:
         export NEW_VERSION=$(python -c "version = '${VERSION}'.split('.'); version[2] = str(int(version[2])+1); print('.'.join(version))")
         echo "New version: $NEW_VERSION"
         
-        docker build -t tharun123/kumar:latest .
-        docker tag tharun123/kumar:latest kumar:${NEW_VERSION}-tag
-        docker push tharun123/kumar:latest kumar:${NEW_VERSION}-tag
+        docker build -t tharun:latest .
+        docker tag tharun:latest tharun:${NEW_VERSION}
+        docker push tharun:${NEW_VERSION}
+        docker push tharun:latest
+
         
         
         
