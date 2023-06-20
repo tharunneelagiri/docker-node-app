@@ -29,6 +29,6 @@ jobs:
         
         docker build -t kumar:latest .
         docker tag kumar:latest kumar:${NEW_VERSION}
-        docker images
-        docker push kumar:${NEW_VERSION}
         docker push kumar:latest
+        docker push kumar:${NEW_VERSION}
+        
