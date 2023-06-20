@@ -28,6 +28,6 @@ jobs:
         echo "New version: $NEW_VERSION"
         
         docker build -t your-docker-repo:latest .
-        docker tag your-docker-repo:latest your-docker-repo:${NEW_VERSION}
-        docker push your-docker-repo:${NEW_VERSION}
-        docker push your-docker-repo:latest
+        docker tag your-docker-repo:latest:${NEW_VERSION}
+        docker push your-docker-repo:latest:${NEW_VERSION}
+        #docker push your-docker-repo:latest
