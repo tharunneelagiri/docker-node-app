@@ -3,7 +3,7 @@ name: Docker Publish
 on:
   push:
     branches:
-      - master
+      - main
 
 jobs:
   publish:
@@ -19,7 +19,7 @@ jobs:
     - name: Build and push Docker image
       env:
         DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
-        DOCKER_PASSWORD: ${{ secrets.DOCKER_TOKEN }}
+        DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
       run: |
         # Set version based on your logic
         # Example: Increment PATCH version
@@ -27,10 +27,11 @@ jobs:
         export NEW_VERSION=$(python -c "version = '${VERSION}'.split('.'); version[2] = str(int(version[2])+1); print('.'.join(version))")
         echo "New version: $NEW_VERSION"
         
-        docker build -t tharun:latest .
-        docker tag tharun:latest tharun:${NEW_VERSION}
-        docker push tharun:${NEW_VERSION}
-        docker push tharun:demo
+        docker build -t your-docker-repo:latest .
+        docker tag your-docker-repo:latest your-docker-repo:${NEW_VERSION}
+        docker push your-docker-repo:${NEW_VERSION}
+        docker push your-docker-repo:latest
+
 
         
         
