@@ -28,6 +28,6 @@ jobs:
         echo "New version: $NEW_VERSION"
         
         docker build -t tharun123/kumar:latest .
-        docker tag tharun123/kumar:latest your-docker-repo:${NEW_VERSION}
+        docker tag tharun123/kumar:latest tharun123/kumar:${NEW_VERSION}
         docker push tharun123/kumar:${NEW_VERSION}
         docker push tharun123/kumar:latest
