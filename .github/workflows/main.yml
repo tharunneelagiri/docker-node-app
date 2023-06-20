@@ -30,7 +30,7 @@ jobs:
         docker build -t tharun:latest .
         docker tag tharun:latest tharun:${NEW_VERSION}
         docker push tharun:${NEW_VERSION}
-        docker push tharun:latest
+        docker push tharun:demo
 
         
         
