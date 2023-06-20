@@ -1,33 +1,33 @@
+name: Docker Publish
+
 on:
   push:
     branches:
-      - master
-
- 
+      - main
 
 jobs:
-  build-and-push:
+  publish:
     runs-on: ubuntu-latest
-
- 
-
+    
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v2
-
- 
-
-      - name: Login to Docker Hub
-        uses: docker/login-action@v1
-        with:
-          username: ${{ secrets.DOCKERHUB_USERNAME }}
-          password: ${{ secrets.DOCKERHUB_TOKEN }}
-
- 
-
-      - name: Build and push Docker image
-        uses: docker/build-push-action@v2
-        with:
-          context: .
-          push: true
-          tags: tharun123/kumar:demo
+    - name: Checkout code
+      uses: actions/checkout@v2
+      
+    - name: Set up Docker Buildx
+      uses: docker/setup-buildx-action@v1
+      
+    - name: Build and push Docker image
+      env:
+        DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+        DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+      run: |
+        # Set version based on your logic
+        # Example: Increment PATCH version
+        export VERSION=$(git describe --abbrev=0 --tags)
+        export NEW_VERSION=$(python -c "version = '${VERSION}'.split('.'); version[2] = str(int(version[2])+1); print('.'.join(version))")
+        echo "New version: $NEW_VERSION"
+        
+        docker build -t your-docker-repo:latest .
+        docker tag your-docker-repo:latest your-docker-repo:${NEW_VERSION}
+        docker push your-docker-repo:${NEW_VERSION}
+        docker push Neelagiri:latest
