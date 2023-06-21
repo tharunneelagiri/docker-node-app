@@ -3,7 +3,7 @@ name: Docker Publish
 on:
   push:
     branches:
-      - master
+      - main
 
 jobs:
   publish:
@@ -16,18 +16,18 @@ jobs:
     - name: Set up Docker Buildx
       uses: docker/setup-buildx-action@v1
       
+    - name: Determine version
+      id: version
+      run: echo ::set-output name=VERSION::$(python -c "import datetime; print(datetime.datetime.now().strftime('%Y.%m.%d'))")
+      
     - name: Build and push Docker image
       env:
-        username: ${{ secrets.DOCKERHUB_USERNAME }}
-        password: ${{ secrets.DOCKERHUB_TOKEN }}
+        DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+        DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+        DOCKER_REPOSITORY: kumar
       run: |
-        # Set version based on your logic
-        # Example: Increment PATCH version
-        export VERSION=$(git describe --abbrev=0 --tags)
-        export NEW_VERSION=$(python -c "version = '${VERSION}'.split('.'); version[2] = str(int(version[2])+1); print('.'.join(version))")
-        echo "New version: $NEW_VERSION"
-        
-        docker build -t your-docker-repo:latest .
-        docker tag your-docker-repo:latest:${NEW_VERSION}
-        docker push your-docker-repo:latest:${NEW_VERSION}
-        #docker push your-docker-repo:latest
+        docker build -t $DOCKER_REPOSITORY:Q1 .
+        docker tag $DOCKER_REPOSITORY:Q1 $DOCKER_REPOSITORY:${{ steps.version.outputs.VERSION }}
+        docker push $DOCKER_REPOSITORY:Q1
+        docker push $DOCKER_REPOSITORY:${{ steps.version.outputs.VERSION }}
+t
