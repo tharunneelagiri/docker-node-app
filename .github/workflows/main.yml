@@ -30,4 +30,4 @@ jobs:
         docker tag $DOCKER_REPOSITORY:Q1 $DOCKER_REPOSITORY:${{ steps.version.outputs.VERSION }}
         docker push $DOCKER_REPOSITORY:Q1
         docker push $DOCKER_REPOSITORY:${{ steps.version.outputs.VERSION }}
-t
+
