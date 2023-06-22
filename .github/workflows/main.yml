@@ -1,33 +1,33 @@
-name: Docker Publish
+name: Deploy to EC2
 
 on:
   push:
     branches:
-      - master
+      - main
 
 jobs:
-  publish:
+  deploy:
     runs-on: ubuntu-latest
     
     steps:
     - name: Checkout code
       uses: actions/checkout@v2
       
-    - name: Set up Docker Buildx
-      uses: docker/setup-buildx-action@v1
-      
-    - name: Determine version
-      id: version
-      run: echo ::set-output name=VERSION::$(python -c "import datetime; print(datetime.datetime.now().strftime('%Y.%m.%d'))")
-      
-    - name: Build and push Docker image
-      env:
-        DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
-        DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
-        DOCKER_REPOSITORY: kumar
+    - name: Install AWS CLI
       run: |
-        docker build -t $DOCKER_REPOSITORY:Q1 .
-        docker tag $DOCKER_REPOSITORY:Q1 $DOCKER_REPOSITORY:${{ steps.version.outputs.VERSION }}
-        docker push $DOCKER_REPOSITORY:Q1
-        docker push $DOCKER_REPOSITORY:${{ steps.version.outputs.VERSION }}
-
+        sudo apt-get update
+        sudo apt-get install -y awscli
+      
+    - name: Configure AWS credentials
+      run: |
+        aws configure set aws_access_key_id ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws configure set aws_secret_access_key ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        aws configure set default.region ${{ secrets.AWS_REGION }}
+      
+    - name: Deploy to EC2
+      env:
+        SSH_PRIVATE_KEY: ${{ secrets.EC2_SSH_PRIVATE_KEY }}
+      run: |
+        echo "$SSH_PRIVATE_KEY" > ~/.ssh/id_rsa
+        chmod 600 ~/.ssh/id_rsa
+        ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa user@your-ec2-instance-ip "cd /path/to/app && git pull && ./deploy.sh"
